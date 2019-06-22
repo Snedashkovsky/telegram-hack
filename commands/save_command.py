@@ -2,6 +2,9 @@ from commands.command import Command
 from datetime import datetime
 
 class SaveCommand(Command):
+    def _extract_text(self, text):
+        return text[len("/save") + 1:]
+
     def _save_to_collection(self, message):
         collection = self._get_collection(message)
         author = self._get_author(message)
@@ -9,7 +12,7 @@ class SaveCommand(Command):
         self.database[collection].save({
             "_id": message_id,
             "author": author,
-            "text": message.text,
+            "text": self._extract_text(message.text),
             "created_at": datetime.now()
         })
 
