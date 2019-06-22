@@ -25,18 +25,19 @@ class SaveCommand(Command):
         return location
 
     def _save_to_collection(self, message):
-        collection = self._get_collection(message)
         author = self._get_author(message)
         message_id = self._get_message_id(message)
         address = self._get_text(message.text)
-
-        self.database[collection].save({
+        message_dict = {
             "_id": message_id,
             "author": author,
             "address": address,
             "location": self._get_location(address),
             "created_at": datetime.now()
-        })
+        }
+
+        self._save_to_steemit(message_dict)
+        self._save_to_mongo(message, message_dict)
 
     def _send_message(self, message):
         self.bot.reply_to(message, "Thanks! Your address was saved")

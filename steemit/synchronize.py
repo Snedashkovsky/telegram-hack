@@ -1,61 +1,38 @@
 from time import sleep
 from tqdm import tqdm
 from pymongo import MongoClient
-# from steemit.steemit_client import SteemitClient
+from steemit.steemit_client import SteemitClient
 from config import config
+import json
+from bson import json_util
 
-STEEMIT_FIELD = "synchronized"
 
-# steemit_client = SteemitClient()
+steemit_client = SteemitClient()
 mongo_client = MongoClient(config["MONGO_HOST"])
 mongo_database = mongo_client[config["MONGO_DATABASE"]]
 
 def get_collections():
-    return mongo_database.collection_names()
+    return config["TEST_MONGO_COLLECTION"], config["TEST_MONGO_COLLECTION"] + "_votes"
 
-def get_collections_content(collections):
-    items = []
-    for collection in collections:
-        items += list(mongo_database[collection].find({ 
-            STEEMIT_FIELD: { 
-                "$exists" : False 
-            }
-        }))
-    return items
+def get_latest_posts_from_steemit():
+    return steemit_client.get_posts()
 
-def get_latest_messages(collections):
-    collections = [collection for collection in collections if not collection.endswith("votes")]
-    return get_collections_content(collections)
+def save_items_to_mongo(collection, items):
+    for item in items:
+        item_body = json.loads(item["body"], object_hook=json_util.object_hook)
 
-def get_latest_votes(collections):
-    collections = [collection for collection in collections if collection.endswith("votes")]
-    return get_collections_content(collections)
+        mongo_database[collection].update({
+            "_id": item_body["_id"]
+        }, {
+            "$set": item_body
+        }, upsert=True)
 
-def mark_everything_as_processed(collections):
-    for collection in collections:
-        mongo_database[collection].update_many({}, {
-            "$set": {
-                STEEMIT_FIELD: True
-            }
-        })
-
-def send_message_to_steemit(message):
-    print(message)
-
-def send_vote_to_steemit(vote):
-    print(vote)
+def split_votes_and_messages(all_messages):
+    return ...
 
 if (__name__ == "__main__"):
-    collections = get_collections()
-    messages = get_latest_messages(collections)
-    votes = get_latest_votes(collections)
-
-    mark_everything_as_processed(collections)
-
-    for message in tqdm(messages):
-        send_message_to_steemit(message)
-
-    for vote in tqdm(votes):
-        send_vote_to_steemit(vote)
-
-    # sleep(10)
+    messages_collection, votes_collection = get_collections()
+    all_messages = get_latest_posts_from_steemit()
+    messages, votes = split_votes_from_messages(all_messages)
+    save_items_to_mongo(messages_collection, messages)
+    save_items_to_mongo(votes_collection, votes)
