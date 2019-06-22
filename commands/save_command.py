@@ -1,18 +1,21 @@
 from commands.command import Command
+from datetime import datetime
 
 class SaveCommand(Command):
-    def _extract_collection(self, message):
-        return message.text.split("\n")[0].strip() + "_messages"
-
-    def _save_to_collection(self, collection, message):
+    def _save_to_collection(self, message):
+        collection = self._get_collection(message)
+        author = self._get_author(message)
+        message_id = self._get_message_id(message)
         self.database[collection].save({
-            "text": message.text
+            "_id": message_id,
+            "author": author,
+            "text": message.text,
+            "created_at": datetime.now()
         })
 
-    def _send_message(self, collection, message):
-        self.bot.reply_to(message, "Your message was sended to a collection {}".format(collection))
+    def _send_message(self, message):
+        self.bot.reply_to(message, "Your message was saved")
 
     def run(self, message):
-        collection = self._extract_collection(message)
-        self._save_to_collection(collection, message)
-        self._send_message(collection, message)
+        self._save_to_collection(message)
+        self._send_message(message)
