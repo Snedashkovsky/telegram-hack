@@ -11,19 +11,26 @@ class ShowCommand(Command):
             .limit(10)
         return messages
 
+    def _get_message_text(self, message):
+        message_text = "{}".format(message["address"])
+
+        if message["location"]:
+            message_text += "\n\nhttps://maps.google.com/?q={lat},{lng}&mid={message_id}&aid={author_id}".format(
+                **message["location"],
+                message_id=message["_id"], 
+                author_id=message["author"]
+            )
+
+        return message_text
+
     def _send_messages(self, message, messages):
         total_message = "Latest community choice:\n"
         for saved_message in messages:
+            saved_message_text = self._get_message_text(saved_message)
             self.bot.send_message(
                 message.chat.id, 
-                saved_message["address"]
+                saved_message_text
             )
-            if saved_message["location"]:
-                self.bot.send_location(
-                    message.chat.id, 
-                    saved_message["location"]["lat"], 
-                    saved_message["location"]["lng"]
-                )
 
     def run(self, message):
         messages = self._get_messages(message)
