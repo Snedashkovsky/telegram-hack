@@ -12,10 +12,18 @@ class ShowCommand(Command):
         return messages
 
     def _send_messages(self, message, messages):
-        total_message = "Messages from database:\n"
+        total_message = "Latest community choice:\n"
         for saved_message in messages:
-            total_message += "{}:\n{}\n\n".format(saved_message["_id"], saved_message["text"])
-        self.bot.reply_to(message, total_message)
+            self.bot.send_message(
+                message.chat.id, 
+                saved_message["address"]
+            )
+            if saved_message["location"]:
+                self.bot.send_location(
+                    message.chat.id, 
+                    saved_message["location"]["lat"], 
+                    saved_message["location"]["lng"]
+                )
 
     def run(self, message):
         messages = self._get_messages(message)

@@ -3,6 +3,7 @@ import os
 from config import config
 from commands.welcome_command import WelcomeCommand
 from commands.save_command import SaveCommand
+from commands.show_command import ShowCommand
 
 bot = telebot.TeleBot(config["BOT_TOKEN"])
 
@@ -13,10 +14,6 @@ def send_welcome(message):
 @bot.message_handler(commands=['show'])
 def show_messages(message):
     ShowCommand(bot).run(message)
-
-@bot.message_handler(commands=['delete'])
-def delete_messages(message):
-    DeleteCommand(bot).run(message)
 
 @bot.message_handler(commands=['save'])
 def save_message(message):
