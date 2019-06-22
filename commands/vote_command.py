@@ -16,12 +16,15 @@ class VoteCommand(Command):
         user = url.split("aid=")[-1]
         return user
 
-    def _get_vote_collection(self, message):
-        return "{}_{}".format(self._get_collection(message), "votes")
+    def _get_message_id_from_bot_message(self, message):
+        url = message.text.split("\n")[-1]
+        user = url.split("mid=")[-1].split("&")[0]
+        return user        
 
     def _save_to_collection(self, message):
         collection = self._get_vote_collection(message)
         votee = self._get_author_from_bot_message(message.reply_to_message)
+        votee_message = self._get_message_id_from_bot_message(message.reply_to_message)
         voter = self._get_author(message)
         message_id = self._get_message_id(message)
 
@@ -29,6 +32,7 @@ class VoteCommand(Command):
             "_id": message_id,
             "voter": voter,
             "votee": votee,
+            "votee_message": votee_message,
             "created_at": datetime.now(),
             "vote": self.vote
         })

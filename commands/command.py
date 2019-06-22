@@ -10,6 +10,9 @@ class Command():
     def _get_collection(self, message):
         return "collection_{}".format(message.chat.id)
 
+    def _get_vote_collection(self, message):
+        return "{}_{}".format(self._get_collection(message), "votes")
+
     def _get_author(self, message):
         return "user_{}".format(message.from_user.id)
 
