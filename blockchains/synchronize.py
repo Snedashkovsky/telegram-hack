@@ -2,6 +2,7 @@ from time import sleep
 from tqdm import tqdm
 from pymongo import MongoClient
 from blockchains.steemit_client import SteemitClient
+from blockchains.fluence_client import FluenceClient
 from config import config
 import json
 from bson import json_util

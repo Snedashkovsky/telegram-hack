@@ -11,5 +11,5 @@ config = {
     "TEST_STEEMIT_PARENT": "test-post-for-telebot-decentralized-db",
     "TEST_MONGO_COLLECTION": "collection_test",
 
-    "BLOCKCHAIN_CLIENT": "steemit"
+    "BLOCKCHAIN_CLIENT": "fluence"
 }

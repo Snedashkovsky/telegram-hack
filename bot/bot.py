@@ -5,6 +5,7 @@ from commands.welcome_command import WelcomeCommand
 from commands.save_command import SaveCommand
 from commands.show_command import ShowCommand
 from commands.vote_command import VoteCommand
+from commands.synchronize_command import SynchronizeCommand
 
 bot = telebot.TeleBot(config["BOT_TOKEN"])
 
@@ -27,6 +28,10 @@ def vote_address(message):
 @bot.message_handler(regexp='^\\-$')
 def unvote_address(message):
     VoteCommand(bot, vote=-1).run(message)
+
+@bot.message_handler(commands=['synchronize'])
+def synchronize(message):
+    SynchronizeCommand(bot).run(message)
 
 def start():
     bot.polling()
