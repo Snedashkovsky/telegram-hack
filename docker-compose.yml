@@ -1,0 +1,19 @@
+# Bot
+# Mongo (with restarts, without data)
+
+version: '3'
+services:
+    mongo:
+        # restart: always
+        image: mongo:latest
+        network_mode: host
+    bot:
+        # restart: always
+        build: .
+        network_mode: host
+    fluence:
+        image: fluencelabs/frun
+        volumes:
+            - ./fluence_backend/target/wasm32-unknown-unknown/release/telebot.wasm:/code/code.wasm
+        ports:
+            - "30000:30000"

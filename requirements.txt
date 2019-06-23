@@ -1,4 +1,10 @@
-pymongo
-telebot
-steem
-networkx
+pymongo==3.7.1
+pyTelegramBotAPI==3.5.2
+steem==1.0.1
+networkx==2.3
+Click==7.0
+tqdm==4.17.1
+scikit-learn==0.19.2
+pandas==0.23.3
+numpy==1.15.0
+scipy==0.19.1
