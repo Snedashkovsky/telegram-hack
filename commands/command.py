@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from blockchains.steemit_client import SteemitClient
+from blockchains.synchronize import get_client
 from config import config
 import json
 from bson import json_util
@@ -8,7 +8,7 @@ class Command():
     def __init__(self, bot):
         self.bot = bot
         self.client = MongoClient(config["MONGO_HOST"])
-        self.steemit_client = SteemitClient(config["STEEMIT_ACCOUNT"], config["STEEMIT_KEY"])
+        self.steemit_client = get_client()()
         self.database = self.client[config["MONGO_DATABASE"]]
 
     def _get_collection(self, message):

@@ -4,7 +4,7 @@
 version: '3'
 services:
     mongo:
-        # restart: always
+        restart: always
         image: mongo:latest
         network_mode: host
     bot:
@@ -13,7 +13,6 @@ services:
         network_mode: host
     fluence:
         image: fluencelabs/frun
+        network_mode: host
         volumes:
             - ./fluence_backend/target/wasm32-unknown-unknown/release/telebot.wasm:/code/code.wasm
-        ports:
-            - "30000:30000"

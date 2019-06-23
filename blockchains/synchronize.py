@@ -13,14 +13,13 @@ def get_steemit_client():
 def get_fluence_client():
     return FluenceClient() 
 
-def get_client(name):
+def get_client():
     return {
         "steemit": get_steemit_client,
         "fluence": get_fluence_client
-    }[name]
+    }[config["BLOCKCHAIN_CLIENT"]]
 
-
-blockchain_client = get_client(config["BLOCKCHAIN_CLIENT"])()
+blockchain_client = get_client()()
 mongo_client = MongoClient(config["MONGO_HOST"])
 mongo_database = mongo_client[config["MONGO_DATABASE"]]
 
