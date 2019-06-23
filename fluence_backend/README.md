@@ -1,0 +1,2 @@
+Build project `cargo +nightly build --target wasm32-unknown-unknown --release`
+Run on docker `docker run --rm -v $(pwd)/target/wasm32-unknown-unknown/release/telebot.wasm:/code/code.wasm -p 30000:30000 fluencelabs/frun`

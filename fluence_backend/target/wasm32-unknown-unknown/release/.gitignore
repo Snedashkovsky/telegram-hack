@@ -1,0 +1,9 @@
+.DS_Store
+.cargo-lock
+.fingerprint*
+build*
+deps*
+dice_game.d
+incremental*
+native*
+
