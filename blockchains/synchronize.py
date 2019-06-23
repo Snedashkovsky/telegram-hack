@@ -31,10 +31,7 @@ def get_latest_posts_from_blockchain():
 
 def save_items_to_mongo(collection, items):
     for item in items:
-        try:
-            item_body = json.loads(item, object_hook=json_util.object_hook)
-        except: 
-            continue
+        item_body = json.loads(item, object_hook=json_util.object_hook)
 
         mongo_database[collection].update({
             "_id": item_body["_id"]
