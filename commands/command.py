@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from steemit.steemit_client import SteemitClient
+from blockchains.steemit_client import SteemitClient
 from config import config
 import json
 from bson import json_util
@@ -24,7 +24,7 @@ class Command():
     def _get_message_id(self, message):
         return "{}_{}".format(message.chat.id, message.message_id)
 
-    def _save_to_steemit(self, message_dict, parent_link=""):
+    def _save_to_blockchain(self, message_dict, parent_link=""):
         parent_link = "{}/{}".format(config["TEST_STEEMIT_PARENT"], parent_link)
         self.steemit_client.send_low_level_post(
             author=config["STEEMIT_ACCOUNT"],

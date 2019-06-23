@@ -1,18 +1,16 @@
 import click
 from bot import bot
-from steemit import synchronize as steemit
+from blockchains import synchronize as blockchains
 from rating import rate
+from config import config
 
 def run_bot():
     print("Bot started...")
     bot.start()
 
-def synchronize_steemit():
-    print("Sync with steemit...")
-    steemit.synchronize()
-
-def synchronize_fluence():
-    pass
+def synchronize_blockchain():
+    print("Sync with {}...".format(config["BLOCKCHAIN_CLIENT"]))
+    blockchains.synchronize()
 
 def synchronize_ratings():
     print("Sync rating...")
@@ -20,7 +18,7 @@ def synchronize_ratings():
 
 PROCESSES = {
     "bot": run_bot,
-    "steemit": synchronize_steemit,
+    "blockchain": synchronize_blockchain,
     "rate": synchronize_ratings
 }
 

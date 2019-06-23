@@ -36,7 +36,7 @@ class SaveCommand(Command):
             "created_at": datetime.now()
         }
 
-        self._save_to_steemit(message_dict)
+        self._save_to_blockchain(message_dict)
         self._save_to_mongo(message, message_dict)
 
     def _send_message(self, message):

@@ -36,7 +36,7 @@ class VoteCommand(Command):
             "vote": self.vote
         }
         
-        self._save_to_steemit(message_dict, parent_link=votee_message)
+        self._save_to_blockchain(message_dict, parent_link=votee_message)
         self._save_to_mongo(message, message_dict, collection=collection)
 
     def _send_message(self, message):

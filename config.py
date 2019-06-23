@@ -9,5 +9,7 @@ config = {
     "STEEMIT_ACCOUNT": 'cyberdrop',
 
     "TEST_STEEMIT_PARENT": "test-post-for-telebot-decentralized-db",
-    "TEST_MONGO_COLLECTION": "collection_test"
+    "TEST_MONGO_COLLECTION": "collection_test",
+
+    "BLOCKCHAIN_CLIENT": "steemit"
 }
