@@ -8,7 +8,10 @@ class ShowCommand(Command):
         collection = self._get_collection(message)
         messages = self.database[collection] \
             .find({}) \
-            .sort([("created_at", -1)]) \
+            .sort([
+                ("author_rank", 1), 
+                ("created_at", -1)
+            ]) \
             .limit(10)
         return messages
 
