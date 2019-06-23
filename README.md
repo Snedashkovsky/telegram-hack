@@ -8,14 +8,13 @@ In our plans is extending of functionality of out App and promoting it on social
 ![Architecture](architecture.png)
 ## Installation 
 
+Clone repository:   
+`git clone https://github.com/belya/telegram-hack.git`  
+
 #### Telebot & mongoDB
 
 Set your telebot token:  
 `export BOT_TOKEN="your_telegram_bot_token"`
-
-TO DO
-
-
 
 #### Fluence
 For testing with docker.  
@@ -24,6 +23,12 @@ Build project
 `cargo +nightly build --target wasm32-unknown-unknown --release`  
 Run on docker   
 `docker run --rm -v $(pwd)/target/wasm32-unknown-unknown/release/telebot.wasm:/code/code.wasm -p 30000:30000 fluencelabs/frun`
+
+#### Docker
+
+To build all nessesary containers, use command:  
+`docker-compose up`  
+This will immediately start synchronization process.
 
 #### Steemit
 Set your Steemit account name:  
