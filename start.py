@@ -3,6 +3,7 @@ from bot import bot
 from blockchains import synchronize as blockchains
 from rating import rate
 from config import config
+import demo.fill as demo
 
 def run_bot():
     print("Bot started...")
@@ -16,10 +17,15 @@ def synchronize_ratings():
     print("Sync rating...")
     rate.rate()
 
+def fill_db():
+    print("Fill DB...")
+    demo.fill()
+
 PROCESSES = {
     "bot": run_bot,
     "blockchain": synchronize_blockchain,
-    "rate": synchronize_ratings
+    "rate": synchronize_ratings,
+    "demo": fill_db,
 }
 
 @click.command()

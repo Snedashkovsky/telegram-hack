@@ -5,24 +5,26 @@ from config import config
 
 MAPS_API_PATH = 'https://api.opencagedata.com/geocode/v1/json'
 
+def get_location(text):
+    response = requests.get(MAPS_API_PATH, params={
+        "q": text,
+        "key": config["MAPS_API_KEY"]
+    })
+    response_json = response.json()
+    location = None
+    if response_json["results"]:
+        location = response_json['results'][0]['geometry']
+    return location
+
 class SaveCommand(Command):
     def __init__(self, bot):
         super().__init__(bot)
-        self.key = config["MAPS_API_KEY"]
 
     def _get_text(self, text):
         return text[len("/save") + 1:]
 
     def _get_location(self, text):
-        response = requests.get(MAPS_API_PATH, params={
-            "q": text,
-            "key": self.key
-        })
-        response_json = response.json()
-        location = None
-        if response_json["results"]:
-            location = response_json['results'][0]['geometry']
-        return location
+        return get_location(text)
 
     def _save_to_collection(self, message):
         author = self._get_author(message)
