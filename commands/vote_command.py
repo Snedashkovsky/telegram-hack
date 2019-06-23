@@ -37,7 +37,7 @@ class VoteCommand(Command):
         }
         
         self._save_to_steemit(message_dict, parent_link=votee_message)
-        self._save_to_mongo(message, message_dict)
+        self._save_to_mongo(message, message_dict, collection=collection)
 
     def _send_message(self, message):
         self.bot.reply_to(message, "Thanks! Your vote was saved")

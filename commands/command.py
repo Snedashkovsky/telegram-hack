@@ -33,6 +33,7 @@ class Command():
             parent_link=parent_link
         )
 
-    def _save_to_mongo(self, message, message_dict):
-        collection = self._get_collection(message)
+    def _save_to_mongo(self, message, message_dict, collection=None):
+        if not collection:
+            collection = self._get_collection(message)
         self.database[collection].save(message_dict)
