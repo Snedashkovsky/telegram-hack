@@ -2,10 +2,9 @@ import steembase
 from steem import Steem
 import random
 import string
-# from config import config
+from config import config
 
 # TODO remove from this place
-
 class SteemitClient():
     def __init__(self,account,private_key):
         self.account_name = account

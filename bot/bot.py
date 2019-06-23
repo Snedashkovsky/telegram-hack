@@ -28,4 +28,5 @@ def vote_address(message):
 def unvote_address(message):
     VoteCommand(bot, vote=-1).run(message)
 
-bot.polling()
+def start():
+    bot.polling()

@@ -6,6 +6,18 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 import numpy as np
 
+config = {
+    "BOT_TOKEN": "765705629:AAH9YsCDdYHWsEWiSlKWPFwFHOijynwOU5A", #os.environ["BOT_TOKEN"],
+    "MONGO_HOST": "localhost",
+    "MONGO_DATABASE": "telegram_hack",
+    "MAPS_API_KEY": "0d28c99c928f4c1da4433bd10bf94838", #os.environ["GMAPS_API_KEY"]
+    "STEEMIT_KEY": "5K5DA2kmJqLew5fDcwBaV44BKUGHiHCnefDzVFJvvQ6M9XNGnF2", #os.environ["GMAPS_API_KEY"]
+    "STEEMIT_ACCOUNT": 'cyberdrop',
+
+    "TEST_STEEMIT_PARENT": "test-post-for-telebot-decentralized-db",
+    "TEST_MONGO_COLLECTION": "collection_test"
+}
+
 class MaliciousVisualizer():
     def compute_graph(self):
         # Get graph from mongo
@@ -20,7 +32,7 @@ class MaliciousVisualizer():
         #     vote["vote"]
         # ) for index, vote in votes_df.iterrows()])
         graph.add_weighted_edges_from([
-            (1, 2, 1), (2, 1, 1), (3, 2, 1), (2, 3, 1), (1, 3, 1), (3, 1, 1), (4, 3, 1), (2, 4, 1), (5, 3, 1), (1, 5, 1), 
+            (1, 2, 1), (2, 1, 1), (3, 2, 1), (1, 3, 1), (3, 1, 1), (4, 3, 1), (2, 4, 1), (5, 3, 1), (1, 5, 1), 
             (10, 1, 1), (10, 2, 1), (2, 10, 1), (11, 10, 1), (10, 3, 1), (3, 10, 1), (4, 11, 1), (10, 5, 1),
             (6, 7, 1), (7, 6, 1), (6, 8, 1), (8, 6, 1), # sybil 
             (2, 6, -1), (3, 6, -1), (1, 6, -1), (1, 7, -1),
@@ -67,7 +79,9 @@ class MaliciousVisualizer():
         y = ranks_df["rank"]
         regression.fit(X, y)
 
-        return (ranks_df["rank"] - regression.coef_[0]) / (regression.intercept_ * ranks_df["rate"])
+        print(regression.coef_, regression.intercept_)
+
+        return (ranks_df["rank"] - regression.intercept_) / (regression.coef_[0] * ranks_df["rate"])
 
     def save_ranks(self, ranks):
         collection = self.mongo[config["MONGO_DATABASE"]][config["TEST_MONGO_COLLECTION"]]
@@ -86,5 +100,5 @@ class MaliciousVisualizer():
         relative_ranks = self.calculate_relative_ranks(rates, ranks)
         self.save_ranks(relative_ranks)
 
-if (__name__ == "__main__"):
+def rate():
     MaliciousVisualizer().compute()

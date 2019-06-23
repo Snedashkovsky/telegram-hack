@@ -1,8 +1,8 @@
 from time import sleep
 from tqdm import tqdm
 from pymongo import MongoClient
-from steemit_client import SteemitClient, config
-# from config import config
+from steemit.steemit_client import SteemitClient
+from config import config
 import json
 from bson import json_util
 
@@ -30,8 +30,8 @@ def save_items_to_mongo(collection, items):
             "$set": item_body
         }, upsert=True)
 
-if (__name__ == "__main__"):
+def synchronize():
     messages_collection, votes_collection = get_collections()
     messages, votes = get_latest_posts_from_steemit()
     save_items_to_mongo(messages_collection, messages)
-    save_items_to_mongo(votes_collection, votes)
+    save_items_to_mongo(votes_collection, votes)    
