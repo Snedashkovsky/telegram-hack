@@ -5,7 +5,7 @@ We integrate **telegram bot**, **mongodb** and **fluence** to reach our goals.
 We learnt **fluence** app it is really useful tool for verified computations and storing data.  
 In our plans is extending of functionality of out App and promoting it on social platforms.  
 
-![Architecture](img/architecture.png)
+![Architecture](architecture.png)
 ## Installation 
 
 #### Telebot & mongoDB
